@@ -1,6 +1,6 @@
 # Maestro Conductor Skill
 
-A Maestro skill that integrates Gemini CLI's **Conductor** extension methodology for Context-Driven Development.
+A Maestro skill following the [Agent Skills specification](https://agentskills.io/specification) that integrates Gemini CLI's **Conductor** methodology for Context-Driven Development.
 
 ## Overview
 
@@ -14,63 +14,45 @@ This skill enables Maestro to follow Conductor's structured development workflow
 
 ## Installation
 
-Copy the skill files to your Maestro skills directory or reference them in your project.
+This skill follows the [Agent Skills specification](https://agentskills.io/specification). Copy the skill directory to your agent's skills location.
+
+## Skill Structure
+
+```
+maestro-conductor-skill/
+├── SKILL.md                    # Main skill file (required)
+├── README.md                   # Documentation
+├── LICENSE                     # Apache 2.0 license
+├── scripts/                    # Executable code
+│   └── conductor_skill.py      # Python utilities
+├── references/                 # Additional documentation
+│   ├── workflow.md             # Detailed workflow rules
+│   └── commands/               # Command protocols
+│       ├── setup.md
+│       ├── new_track.md
+│       ├── implement.md
+│       ├── status.md
+│       └── revert.md
+└── assets/                     # Static resources
+    └── templates/              # Project templates
+        ├── product.md
+        ├── product-guidelines.md
+        └── tech-stack.md
+```
 
 ## Commands
 
-### `/conductor:setup`
+| Command | Description |
+|---------|-------------|
+| `/conductor:setup` | Initialize Conductor environment for a new or existing project |
+| `/conductor:newTrack [description]` | Create a new track with specification and plan |
+| `/conductor:implement [track_name]` | Execute tasks following TDD workflow |
+| `/conductor:status` | Display current project and track progress |
+| `/conductor:revert` | Git-aware revert of tracks, phases, or tasks |
 
-Initialize the Conductor environment for a new or existing project.
+## Conductor Project Structure
 
-**Creates:**
-- `conductor/product.md` - Product definition and goals
-- `conductor/product-guidelines.md` - Brand and communication guidelines
-- `conductor/tech-stack.md` - Technology choices and rationale
-- `conductor/workflow.md` - Development workflow configuration
-- `conductor/code_styleguides/` - Language-specific style guides
-- `conductor/tracks.md` - Track registry
-
-### `/conductor:newTrack [description]`
-
-Create a new track (feature, bug fix, or chore) with specification and plan.
-
-**Creates:**
-- `conductor/tracks/<track_id>/spec.md` - Detailed requirements
-- `conductor/tracks/<track_id>/plan.md` - Phased task breakdown
-- `conductor/tracks/<track_id>/metadata.json` - Track metadata
-
-### `/conductor:implement [track_name]`
-
-Execute the tasks in a track's plan following the configured workflow.
-
-**Actions:**
-- Selects next pending task
-- Follows TDD workflow (Red → Green → Refactor)
-- Updates plan status as tasks complete
-- Creates git commits with detailed notes
-- Triggers phase verification checkpoints
-
-### `/conductor:status`
-
-Display current project and track progress.
-
-**Shows:**
-- Overall project status
-- Current phase and task
-- Progress statistics
-- Blockers and next actions
-
-### `/conductor:revert`
-
-Git-aware revert of tracks, phases, or tasks.
-
-**Supports:**
-- Interactive target selection
-- Git history reconciliation
-- Handles rewritten commits
-- Plan synchronization after revert
-
-## Project Structure
+When you run `/conductor:setup`, it creates:
 
 ```
 conductor/
@@ -80,15 +62,11 @@ conductor/
 ├── workflow.md            # Development workflow
 ├── tracks.md              # Track registry
 ├── code_styleguides/      # Style guides by language
-│   ├── python.md
-│   ├── javascript.md
-│   └── ...
-├── tracks/                # Individual tracks
-│   └── <track_id>/
-│       ├── spec.md
-│       ├── plan.md
-│       └── metadata.json
-└── archive/               # Completed/archived tracks
+└── tracks/                # Individual tracks
+    └── <track_id>/
+        ├── spec.md
+        ├── plan.md
+        └── metadata.json
 ```
 
 ## Workflow Principles
@@ -110,16 +88,6 @@ conductor/
 7. Commit with git notes
 8. Mark complete `[x]` with SHA
 9. Phase checkpoints trigger verification
-
-## Integration with Maestro
-
-This skill provides Maestro with:
-
-- **Structured context management** via conductor files
-- **Iterative planning** with spec/plan generation
-- **Progress tracking** through plan status markers
-- **Quality gates** via TDD workflow
-- **Audit trail** through git notes and checkpoints
 
 ## Credits
 
